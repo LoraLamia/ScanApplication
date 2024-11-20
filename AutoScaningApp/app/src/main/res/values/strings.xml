@@ -1,0 +1,4 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="app_name">AutoScaningApp</string>
+    <string name="hint_text">Unesite tekst ovdje</string>
+</resources>
