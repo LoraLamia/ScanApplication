@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("KeyPress", "Physical key with keyCode 103 pressed")
             // Ovdje možete dodati logiku za aktivaciju DataWedge-a ako je potrebno
             return true
-            //jfujfjfj
+            //jfujfjfjhshshs
         }
         return super.onKeyDown(keyCode, event)
     }
