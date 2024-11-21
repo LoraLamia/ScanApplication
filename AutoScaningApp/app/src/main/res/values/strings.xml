@@ -1,4 +1,15 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <string name="app_name">AutoScaningApp</string>
-    <string name="hint_text">Unesite tekst ovdje</string>
+    <string name="app_name">ScanApplication</string>
+
+    <!-- Labela za polja -->
+    <string name="sifra1_label">Šifra1:</string>
+    <string name="kod1_label">Kod 1:</string>
+    <string name="kod2_label">Kod 2:</string>
+    <string name="kod3_label">Kod 3:</string>
+
+    <!-- Hintovi za unos u polja -->
+    <string name="sifra1_hint">Unesi šifru</string>
+    <string name="kod1_hint">Unesi Kod 1</string>
+    <string name="kod2_hint">Unesi Kod 2</string>
+    <string name="kod3_hint">Unesi Kod 3</string>
 </resources>

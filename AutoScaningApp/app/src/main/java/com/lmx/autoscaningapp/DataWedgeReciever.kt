@@ -13,6 +13,8 @@ class DataWedgeReciever(private val editText: EditText): BroadcastReceiver() {
                 val barcodeData = intent.getStringExtra("com.symbol.datawedge.data_string")
                 Log.d("DataWedge", "Received barcode: $barcodeData")
 
+
+
                 editText.post {
                     editText.setText(barcodeData ?: "")
                 }

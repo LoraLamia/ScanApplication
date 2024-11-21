@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var editText: EditText
+    private lateinit var editTextSifra1: EditText
     private val targetKeyCode = 103
     private lateinit var dataWedgeReceiver: DataWedgeReciever
 
@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        editText = findViewById(R.id.editTextText)
+        editTextSifra1 = findViewById(R.id.editTextSifra1)
 
-        dataWedgeReceiver = DataWedgeReciever(editText)
+        dataWedgeReceiver = DataWedgeReciever(editTextSifra1)
 
         // Registracija BroadcastReceiver-a za DataWedge
         val filter = IntentFilter()

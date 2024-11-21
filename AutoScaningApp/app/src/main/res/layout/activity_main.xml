@@ -7,31 +7,108 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="30dp"
-        android:clickable="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="@string/hint_text"
-        android:inputType="none"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Labela za Šifra1 -->
     <TextView
-        android:id="@+id/textViewCode"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="20dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/editTextText"
+        android:id="@+id/labelSifra1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Šifra:"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Polje za Šifra1 -->
+    <EditText
+        android:id="@+id/editTextSifra1"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Skeniraj kod"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:cursorVisible="false"
+        app:layout_constraintStart_toEndOf="@id/labelSifra1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/labelSifra1" />
+
+    <!-- Labela za Kod 1 -->
+    <TextView
+        android:id="@+id/labelKod1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kod 1:"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextSifra1" />
+
+    <!-- Polje za Kod 1 -->
+    <EditText
+        android:id="@+id/editTextKod1"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Unesi Kod 1"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@id/labelKod1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/labelKod1" />
+
+    <!-- Labela za Kod 2 -->
+    <TextView
+        android:id="@+id/labelKod2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kod 2:"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextKod1" />
+
+    <!-- Polje za Kod 2 -->
+    <EditText
+        android:id="@+id/editTextKod2"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Unesi Kod 2"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@id/labelKod2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/labelKod2" />
+
+    <!-- Labela za Kod 3 -->
+    <TextView
+        android:id="@+id/labelKod3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kod 3:"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextKod2" />
+
+    <!-- Polje za Kod 3 -->
+    <EditText
+        android:id="@+id/editTextKod3"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Unesi Kod 3"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@id/labelKod3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/labelKod3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
