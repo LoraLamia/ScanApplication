@@ -1,8 +1,6 @@
 package com.lmx.autoscaningapp
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
+
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var editText: EditText
     private val targetKeyCode = 103
+    private lateinit var dataWedgeReceiver: DataWedgeReciever
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +23,12 @@ class MainActivity : AppCompatActivity() {
 
         editText = findViewById(R.id.editTextText)
 
+        dataWedgeReceiver = DataWedgeReciever(editText)
+
         // Registracija BroadcastReceiver-a za DataWedge
         val filter = IntentFilter()
-        filter.addAction("com.lmx.autoscaningapp.ACTION")
-        registerReceiver(dataWedgeReceiver, filter, RECEIVER_NOT_EXPORTED)
+        filter.addAction("com.lmx.autoscaningapp.SCAN")
+        registerReceiver(dataWedgeReceiver, filter, RECEIVER_EXPORTED)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -37,20 +38,6 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onKeyDown(keyCode, event)
-    }
-
-    private val dataWedgeReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.let {
-                val barcodeData = it.getStringExtra("com.symbol.datawedge.data_string")
-                Log.d("DataWedge", "Received barcode: $barcodeData")
-
-                // Postavljanje skeniranog koda u EditText
-                runOnUiThread {
-                    editText.setText(barcodeData ?: "")
-                }
-            }
-        }
     }
 
     override fun onDestroy() {
