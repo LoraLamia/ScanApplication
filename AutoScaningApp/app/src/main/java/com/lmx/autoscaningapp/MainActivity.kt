@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var editTextSifra1: EditText
+    private lateinit var editTextKod1: EditText
     private val targetKeyCode = 103
     private lateinit var dataWedgeReceiver: DataWedgeReciever
 
@@ -26,20 +27,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         editTextSifra1 = findViewById(R.id.editTextSifra1)
-        val editTextKod1 = findViewById<EditText>(R.id.editTextKod1)
+        editTextKod1 = findViewById<EditText>(R.id.editTextKod1)
         val editTextKod2 = findViewById<EditText>(R.id.editTextKod2)
         val editTextKod3 = findViewById<EditText>(R.id.editTextKod3)
 
         editTextSifra1.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
 
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-                    editTextKod1.text.clear()
-                    editTextKod2.text.clear()
-                    editTextKod3.text.clear()
 
                     editTextKod1.isEnabled = true
                     editTextKod2.isEnabled = true
@@ -47,6 +46,23 @@ class MainActivity : AppCompatActivity() {
 
                     editTextKod1.requestFocus()
                     showKeyboard(editTextKod1)
+                }
+            }
+        })
+
+        editTextKod1.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrEmpty()) {
+                    if(editTextKod1.text.toString() == editTextSifra1.text.toString()) {
+                        editTextKod1.text.clear()
+                    }
+
                 }
             }
         })
@@ -75,7 +91,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showKeyboard(editText: EditText) {
-        editText.text.clear()
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
