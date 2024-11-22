@@ -15,11 +15,17 @@ class DataWedgeReciever(private val editText: EditText) : BroadcastReceiver() {
 
 
 
-            editText.post {
-                editText.setText(barcodeData ?: "")
+            if (barcodeData != null) {
+                editText.post {
+                    val activity = editText.context as MainActivity
+                    activity.clearKodFields()
+
+                    editText.setText(barcodeData)
+                }
             }
         } else {
             Log.w("DataWedge", "Received null Intent")
         }
     }
+
 }

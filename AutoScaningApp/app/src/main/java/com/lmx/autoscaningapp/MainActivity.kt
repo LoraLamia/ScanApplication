@@ -94,4 +94,16 @@ class MainActivity : AppCompatActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
+
+    fun clearKodFields() {
+        val editTextKod1 = findViewById<EditText>(R.id.editTextKod1)
+        val editTextKod2 = findViewById<EditText>(R.id.editTextKod2)
+        val editTextKod3 = findViewById<EditText>(R.id.editTextKod3)
+
+        // Očisti polja kod1, kod2 i kod3
+        editTextKod1.text.clear()
+        editTextKod2.text.clear()
+        editTextKod3.text.clear()
+
+    }
 }
