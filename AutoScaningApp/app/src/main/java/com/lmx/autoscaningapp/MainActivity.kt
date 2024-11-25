@@ -75,7 +75,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-
+                if (!s.isNullOrEmpty() && editTextKod1.text.toString() == textViewSifra.text.toString()) {
+                    editTextKod1.text.clear()
+                }
             }
         })
 
@@ -151,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             editTextKod1.isEnabled = false
             editTextKod2.isEnabled = false
             editTextKod3.isEnabled = false
-            
+
             hideKeyboard()
         } catch (e: Exception) {
             Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()

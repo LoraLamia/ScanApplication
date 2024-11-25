@@ -14,10 +14,7 @@ class DataWedgeReciever(private val textViewSifra: TextView) : BroadcastReceiver
 
             if (barcodeData != null) {
                 textViewSifra.post {
-                    val activity = textViewSifra.context as MainActivity
-                    activity.clearKodFields()
-
-                    textViewSifra.setText(barcodeData)
+                    textViewSifra.text = barcodeData
                 }
             }
         } else {
