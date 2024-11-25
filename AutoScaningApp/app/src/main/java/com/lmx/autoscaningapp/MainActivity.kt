@@ -10,14 +10,21 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var editTextSifra1: EditText
+    private lateinit var textViewSifra: TextView
     private lateinit var editTextKod1: EditText
+    private lateinit var editTextKod2: EditText
+    private lateinit var editTextKod3: EditText
+    private lateinit var saveButton: Button
+
     private val targetKeyCode = 103
     private lateinit var dataWedgeReceiver: DataWedgeReciever
 
@@ -26,12 +33,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        editTextSifra1 = findViewById(R.id.editTextSifra1)
+        textViewSifra = findViewById(R.id.labelSkeniranaSifra)
         editTextKod1 = findViewById<EditText>(R.id.editTextKod1)
-        val editTextKod2 = findViewById<EditText>(R.id.editTextKod2)
-        val editTextKod3 = findViewById<EditText>(R.id.editTextKod3)
+        editTextKod2 = findViewById<EditText>(R.id.editTextKod2)
+        editTextKod3 = findViewById<EditText>(R.id.editTextKod3)
+        saveButton = findViewById<Button>(R.id.buttonClearAndSave)
 
-        editTextSifra1.addTextChangedListener(object : TextWatcher {
+        saveButton.setOnClickListener {
+            saveDataToFile()
+        }
+
+        textViewSifra.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -58,17 +70,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if (!s.isNullOrEmpty()) {
-                    if(editTextKod1.text.toString() == editTextSifra1.text.toString()) {
-                        editTextKod1.text.clear()
-                    }
-
+                if(textViewSifra.text == editTextKod1.text) {
+                    editTextKod1.text.clear()
                 }
             }
         })
 
 
-        dataWedgeReceiver = DataWedgeReciever(editTextSifra1)
+        dataWedgeReceiver = DataWedgeReciever(textViewSifra)
 
         // Registracija BroadcastReceiver-a za DataWedge
         val filter = IntentFilter()
@@ -96,14 +105,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun clearKodFields() {
-        val editTextKod1 = findViewById<EditText>(R.id.editTextKod1)
-        val editTextKod2 = findViewById<EditText>(R.id.editTextKod2)
-        val editTextKod3 = findViewById<EditText>(R.id.editTextKod3)
-
-        // Očisti polja kod1, kod2 i kod3
         editTextKod1.text.clear()
         editTextKod2.text.clear()
         editTextKod3.text.clear()
-
     }
+
+
+    fun saveDataToFile() {
+        // Dohvati tekst iz svih polja
+        val sifra = textViewSifra.text.toString()
+        val kod1 = editTextKod1.text.toString()
+        val kod2 = editTextKod2.text.toString()
+        val kod3 = editTextKod3.text.toString()
+        val fileName = "autoscan_data.txt"
+        val data = "Šifra: $sifra\nKod 1: $kod1\nKod 2: $kod2\nKod 3: $kod3\n\n"
+
+        // Formatiraj podatke za spremanje
+
+        if (sifra.isEmpty() || kod1.isEmpty() || kod2.isEmpty() || kod3.isEmpty()) {
+            Toast.makeText(this, "Sva polja moraju biti popunjena prije spremanja!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        try {
+            // Otvori datoteku u APPEND modu - kreira ako ne postoji, dodaje ako postoji
+            openFileOutput(fileName, Context.MODE_APPEND).use {
+                it.write(data.toByteArray())
+            }
+            Toast.makeText(this, "Podaci spremljeni u $fileName", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            // Prikazi poruku u slučaju greške
+            Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+
+        // Očisti polja nakon spremanja
+        clearKodFields()
+        findViewById<TextView>(R.id.labelSkeniranaSifra).text = "Skeniraj kod"
+    }
+
 }

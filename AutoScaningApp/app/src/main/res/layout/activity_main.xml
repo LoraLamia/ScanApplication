@@ -5,38 +5,36 @@
     android:id="@+id/codeInputField"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
-
+    <!-- Labela za Šifra -->
     <TextView
         android:id="@+id/labelSifra1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Šifra:  "
-        android:textSize="16sp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@id/editTextSifra1" />
-
-    <!-- Polje za Šifra1 -->
-    <EditText
-        android:id="@+id/editTextSifra1"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Skeniraj kod"
+        android:layout_height="wrap_content"
+        android:text="Šifra:"
         android:textSize="16sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:paddingStart="8dp"
-        android:focusable="false"
-        android:clickable="false"
-        android:longClickable="false"
-        android:cursorVisible="false"
-        android:background="@drawable/edittext_border"
-        app:layout_constraintStart_toEndOf="@id/labelSifra1"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="32dp" />
+
+    <!-- Prikaz skenirane šifre (needitabilno polje) -->
+    <TextView
+        android:id="@+id/labelSkeniranaSifra"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:text="Skeniraj kod"
+        android:textSize="16sp"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintTop_toBottomOf="@id/labelSifra1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
     <!-- Labela za Kod 1 -->
     <TextView
@@ -45,9 +43,10 @@
         android:layout_height="wrap_content"
         android:text="Kod 1:"
         android:textSize="16sp"
-        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/labelSkeniranaSifra"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@id/editTextKod1" />
+        android:layout_marginTop="16dp" />
 
     <!-- Polje za Kod 1 -->
     <EditText
@@ -62,26 +61,24 @@
         android:imeOptions="actionNext"
         android:singleLine="true"
         android:enabled="false"
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        android:inputType="textCapCharacters"
         android:background="@drawable/edittext_border"
         app:layout_constraintStart_toEndOf="@id/labelKod1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextSifra1"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/labelKod1"
+        android:layout_marginTop="8dp" />
 
-    <!-- Labela za Kod 2 -->
+    <!-- Ponovite za Kod 2 i Kod 3 -->
     <TextView
         android:id="@+id/labelKod2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kod 2:"
         android:textSize="16sp"
-        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editTextKod1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@id/editTextKod2" />
+        android:layout_marginTop="16dp" />
 
-    <!-- Polje za Kod 2 -->
     <EditText
         android:id="@+id/editTextKod2"
         android:layout_width="0dp"
@@ -94,26 +91,23 @@
         android:imeOptions="actionNext"
         android:singleLine="true"
         android:enabled="false"
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        android:inputType="textCapCharacters"
         android:background="@drawable/edittext_border"
         app:layout_constraintStart_toEndOf="@id/labelKod2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextKod1"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/labelKod2"
+        android:layout_marginTop="8dp" />
 
-    <!-- Labela za Kod 3 -->
     <TextView
         android:id="@+id/labelKod3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kod 3:"
         android:textSize="16sp"
-        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editTextKod2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@id/editTextKod3" />
+        android:layout_marginTop="16dp" />
 
-    <!-- Polje za Kod 3 -->
     <EditText
         android:id="@+id/editTextKod3"
         android:layout_width="0dp"
@@ -126,11 +120,20 @@
         android:imeOptions="actionDone"
         android:singleLine="true"
         android:enabled="false"
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        android:inputType="textCapCharacters"
         android:background="@drawable/edittext_border"
         app:layout_constraintStart_toEndOf="@id/labelKod3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextKod2"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/labelKod3"
+        android:layout_marginTop="8dp" />
+
+    <!-- Gumb za brisanje i spremanje -->
+    <Button
+        android:id="@+id/buttonClearAndSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Obriši i Spremi"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextKod3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
