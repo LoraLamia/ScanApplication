@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editTextKod2: EditText
     private lateinit var editTextKod3: EditText
     private lateinit var saveButton: Button
-
     private val targetKeyCode = 103
     private lateinit var dataWedgeReceiver: DataWedgeReciever
 
@@ -39,49 +38,25 @@ class MainActivity : AppCompatActivity() {
         editTextKod3 = findViewById(R.id.editTextKod3)
         saveButton = findViewById(R.id.buttonClearAndSave)
 
-        editTextKod1.isEnabled = false
-        editTextKod2.isEnabled = false
-        editTextKod3.isEnabled = false
-
+        updateFieldsState(false)
 
         saveButton.setOnClickListener {
             saveDataToFile()
+            updateFieldsState(false)
         }
 
         textViewSifra.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-
-                    editTextKod1.isEnabled = true
-                    editTextKod2.isEnabled = true
-                    editTextKod3.isEnabled = true
+                    updateFieldsState(true)
 
                     editTextKod1.requestFocus()
                     showKeyboard(editTextKod1)
                 }
             }
         })
-
-        editTextKod1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (!s.isNullOrEmpty() && editTextKod1.text.toString() == textViewSifra.text.toString()) {
-                    editTextKod1.text.clear()
-                }
-                //Bez ovoga text se prepisuje
-            }
-        })
-
 
         dataWedgeReceiver = DataWedgeReciever(textViewSifra)
 
@@ -141,20 +116,30 @@ class MainActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "Podaci spremljeni u $fileName", Toast.LENGTH_SHORT).show()
 
-            editTextKod1.text.clear()
-            editTextKod2.text.clear()
-            editTextKod3.text.clear()
-
             textViewSifra.text = "Skeniraj kod"
-
-            editTextKod1.isEnabled = false
-            editTextKod2.isEnabled = false
-            editTextKod3.isEnabled = false
-
             hideKeyboard()
         } catch (e: Exception) {
             Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
+
+    private fun updateFieldsState(enabled: Boolean) {
+        val textColor = if (enabled) R.color.black else R.color.gray
+
+        editTextKod1.apply {
+            isEnabled = enabled
+            setTextColor(resources.getColor(textColor, null))
+        }
+        editTextKod2.apply {
+            isEnabled = enabled
+            setTextColor(resources.getColor(textColor, null))
+        }
+        editTextKod3.apply {
+            isEnabled = enabled
+            setTextColor(resources.getColor(textColor, null))
+        }
+    }
+
+
 
 }
