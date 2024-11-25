@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 if (!s.isNullOrEmpty() && editTextKod1.text.toString() == textViewSifra.text.toString()) {
                     editTextKod1.text.clear()
                 }
+                //Bez ovoga text se prepisuje
             }
         })
 
@@ -117,13 +118,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun clearKodFields() {
-        editTextKod1.text.clear()
-        editTextKod2.text.clear()
-        editTextKod3.text.clear()
-    }
-
-
     fun saveDataToFile() {
         // Dohvati tekst iz svih polja
         val sifra = textViewSifra.text.toString()
@@ -147,7 +141,10 @@ class MainActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "Podaci spremljeni u $fileName", Toast.LENGTH_SHORT).show()
 
-            clearKodFields()
+            editTextKod1.text.clear()
+            editTextKod2.text.clear()
+            editTextKod3.text.clear()
+            
             textViewSifra.text = "Skeniraj kod"
 
             editTextKod1.isEnabled = false
