@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             editTextKod1.text.clear()
             editTextKod2.text.clear()
             editTextKod3.text.clear()
-            
+
             textViewSifra.text = "Skeniraj kod"
 
             editTextKod1.isEnabled = false

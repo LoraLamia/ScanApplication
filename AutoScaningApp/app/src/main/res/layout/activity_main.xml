@@ -11,13 +11,12 @@
     <!-- Labela za Šifra -->
     <TextView
         android:id="@+id/labelSifra1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Šifra:"
+        android:text="@string/sifra1_label"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="32dp" />
 
@@ -28,107 +27,125 @@
         android:layout_height="48dp"
         android:gravity="center_vertical"
         android:paddingStart="8dp"
-        android:text="Skeniraj kod"
+        android:paddingEnd="8dp"
+        android:hint="@string/sifra1_hint"
         android:textSize="16sp"
-        android:background="@drawable/edittext_border"
-        app:layout_constraintTop_toBottomOf="@id/labelSifra1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/non_editable_background"
+        android:focusable="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:cursorVisible="false"
+        app:layout_constraintStart_toEndOf="@id/labelSifra1"
+        app:layout_constraintTop_toTopOf="@id/labelSifra1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp" />
 
     <!-- Labela za Kod 1 -->
     <TextView
         android:id="@+id/labelKod1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kod 1:"
+        android:text="@string/kod1_label"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/labelSkeniranaSifra"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toTopOf="@id/editTextKod1"
+        app:layout_constraintBottom_toBottomOf="@id/editTextKod1" />
 
     <!-- Polje za Kod 1 -->
     <EditText
         android:id="@+id/editTextKod1"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:hint="Unesi Kod 1"
+        android:hint="@string/kod1_hint"
         android:textSize="16sp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:inputType="textCapCharacters|text"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         android:imeOptions="actionNext"
         android:singleLine="true"
         android:background="@drawable/edittext_border"
         app:layout_constraintStart_toEndOf="@id/labelKod1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelKod1"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintTop_toBottomOf="@id/labelSkeniranaSifra"
+        android:layout_marginTop="16dp" />
 
-    <!-- Ponovite za Kod 2 i Kod 3 -->
+    <!-- Labela za Kod 2 -->
     <TextView
         android:id="@+id/labelKod2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kod 2:"
+        android:text="@string/kod2_label"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/editTextKod1"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toTopOf="@id/editTextKod2"
+        app:layout_constraintBottom_toBottomOf="@id/editTextKod2" />
 
+    <!-- Polje za Kod 2 -->
     <EditText
         android:id="@+id/editTextKod2"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:hint="Unesi Kod 2"
+        android:hint="@string/kod2_hint"
         android:textSize="16sp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:inputType="textCapCharacters|text"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         android:imeOptions="actionNext"
         android:singleLine="true"
         android:background="@drawable/edittext_border"
         app:layout_constraintStart_toEndOf="@id/labelKod2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelKod2"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintTop_toBottomOf="@id/editTextKod1"
+        android:layout_marginTop="16dp" />
 
+    <!-- Labela za Kod 3 -->
     <TextView
         android:id="@+id/labelKod3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kod 3:"
+        android:text="@string/kod3_label"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/editTextKod2"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toTopOf="@id/editTextKod3"
+        app:layout_constraintBottom_toBottomOf="@id/editTextKod3" />
 
+    <!-- Polje za Kod 3 -->
     <EditText
         android:id="@+id/editTextKod3"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:hint="Unesi Kod 3"
+        android:hint="@string/kod3_hint"
         android:textSize="16sp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:inputType="textCapCharacters|text"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         android:imeOptions="actionDone"
         android:singleLine="true"
         android:background="@drawable/edittext_border"
         app:layout_constraintStart_toEndOf="@id/labelKod3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelKod3"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintTop_toBottomOf="@id/editTextKod2"
+        android:layout_marginTop="16dp" />
 
     <!-- Gumb za brisanje i spremanje -->
     <Button
         android:id="@+id/buttonClearAndSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Obriši i Spremi"
+        android:text="@string/button_clear_and_save"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@id/editTextKod3"
         app:layout_constraintStart_toStartOf="parent"

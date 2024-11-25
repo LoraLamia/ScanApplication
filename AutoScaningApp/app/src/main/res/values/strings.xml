@@ -2,13 +2,14 @@
     <string name="app_name">ScanApplication</string>
 
     <!-- Labela za polja -->
-    <string name="sifra1_label">Šifra1:</string>
+    <string name="sifra1_label">Šifra:</string>
     <string name="kod1_label">Kod 1:</string>
     <string name="kod2_label">Kod 2:</string>
     <string name="kod3_label">Kod 3:</string>
+    <string name="button_clear_and_save">Unesi</string>
 
     <!-- Hintovi za unos u polja -->
-    <string name="sifra1_hint">Unesi šifru</string>
+    <string name="sifra1_hint">Skeniraj kod</string>
     <string name="kod1_hint">Unesi Kod 1</string>
     <string name="kod2_hint">Unesi Kod 2</string>
     <string name="kod3_hint">Unesi Kod 3</string>
