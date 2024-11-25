@@ -34,10 +34,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         textViewSifra = findViewById(R.id.labelSkeniranaSifra)
-        editTextKod1 = findViewById<EditText>(R.id.editTextKod1)
-        editTextKod2 = findViewById<EditText>(R.id.editTextKod2)
-        editTextKod3 = findViewById<EditText>(R.id.editTextKod3)
-        saveButton = findViewById<Button>(R.id.buttonClearAndSave)
+        editTextKod1 = findViewById(R.id.editTextKod1)
+        editTextKod2 = findViewById(R.id.editTextKod2)
+        editTextKod3 = findViewById(R.id.editTextKod3)
+        saveButton = findViewById(R.id.buttonClearAndSave)
+
+        editTextKod1.isEnabled = false
+        editTextKod2.isEnabled = false
+        editTextKod3.isEnabled = false
+
 
         saveButton.setOnClickListener {
             saveDataToFile()
@@ -70,9 +75,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if(textViewSifra.text == editTextKod1.text) {
-                    editTextKod1.text.clear()
-                }
+
             }
         })
 
@@ -104,6 +107,14 @@ class MainActivity : AppCompatActivity() {
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
 
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        currentFocus?.let {
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+            it.clearFocus()
+        }
+    }
+
     fun clearKodFields() {
         editTextKod1.text.clear()
         editTextKod2.text.clear()
@@ -133,14 +144,18 @@ class MainActivity : AppCompatActivity() {
                 it.write(data.toByteArray())
             }
             Toast.makeText(this, "Podaci spremljeni u $fileName", Toast.LENGTH_SHORT).show()
+
+            clearKodFields()
+            textViewSifra.text = "Skeniraj kod"
+
+            editTextKod1.isEnabled = false
+            editTextKod2.isEnabled = false
+            editTextKod3.isEnabled = false
+            
+            hideKeyboard()
         } catch (e: Exception) {
-            // Prikazi poruku u slučaju greške
             Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()
         }
-
-        // Očisti polja nakon spremanja
-        clearKodFields()
-        findViewById<TextView>(R.id.labelSkeniranaSifra).text = "Skeniraj kod"
     }
 
 }
