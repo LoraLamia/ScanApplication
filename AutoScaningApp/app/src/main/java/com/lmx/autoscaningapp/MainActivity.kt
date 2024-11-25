@@ -94,7 +94,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun saveDataToFile() {
-        // Dohvati tekst iz svih polja
         val sifra = textViewSifra.text.toString()
         val kod1 = editTextKod1.text.toString()
         val kod2 = editTextKod2.text.toString()
@@ -102,12 +101,12 @@ class MainActivity : AppCompatActivity() {
         val fileName = "autoscan_data.txt"
         val data = "Šifra: $sifra\nKod 1: $kod1\nKod 2: $kod2\nKod 3: $kod3\n\n"
 
-        // Formatiraj podatke za spremanje
-
         if (sifra.isEmpty() || kod1.isEmpty() || kod2.isEmpty() || kod3.isEmpty()) {
             Toast.makeText(this, "Sva polja moraju biti popunjena prije spremanja!", Toast.LENGTH_SHORT).show()
             return
         }
+
+
 
         try {
             // Otvori datoteku u APPEND modu - kreira ako ne postoji, dodaje ako postoji
@@ -116,7 +115,8 @@ class MainActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "Podaci spremljeni u $fileName", Toast.LENGTH_SHORT).show()
 
-            textViewSifra.text = "Skeniraj kod"
+            textViewSifra.text = ""
+            textViewSifra.hint = "Skeniraj kod"
             hideKeyboard()
         } catch (e: Exception) {
             Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()
