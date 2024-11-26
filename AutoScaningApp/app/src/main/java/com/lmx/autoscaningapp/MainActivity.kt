@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         editTextKod2 = findViewById(R.id.editTextKod2)
         editTextKod3 = findViewById(R.id.editTextKod3)
         saveButton = findViewById(R.id.buttonClearAndSave)
+        checkFieldsAndUpdateButton()
 
         updateFieldsState(false)
 
@@ -66,6 +67,21 @@ class MainActivity : AppCompatActivity() {
         val filter = IntentFilter()
         filter.addAction("com.lmx.autoscaningapp.SCAN")
         registerReceiver(dataWedgeReceiver, filter, RECEIVER_EXPORTED)
+
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkFieldsAndUpdateButton()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        editTextKod1.addTextChangedListener(textWatcher)
+        editTextKod2.addTextChangedListener(textWatcher)
+        editTextKod3.addTextChangedListener(textWatcher)
+        textViewSifra.addTextChangedListener(textWatcher)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -139,4 +155,14 @@ class MainActivity : AppCompatActivity() {
             setTextColor(resources.getColor(textColor, null))
         }
     }
+
+    private fun checkFieldsAndUpdateButton() {
+        val isSifraNotEmpty = textViewSifra.text.toString().isNotEmpty()
+        val isKod1NotEmpty = editTextKod1.text.toString().isNotEmpty()
+        val isKod2NotEmpty = editTextKod2.text.toString().isNotEmpty()
+        val isKod3NotEmpty = editTextKod3.text.toString().isNotEmpty()
+
+        saveButton.isEnabled = isSifraNotEmpty && isKod1NotEmpty && isKod2NotEmpty && isKod3NotEmpty
+    }
+
 }

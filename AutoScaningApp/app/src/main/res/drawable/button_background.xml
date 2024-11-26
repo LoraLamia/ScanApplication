@@ -3,7 +3,7 @@
     <!-- Stanje pritisnuto -->
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#7E57C2" /> <!-- Tamnija ljubičasta boja -->
+            <solid android:color="@color/button_pressed" /> <!-- Tamnija ljubičasta boja -->
             <corners android:radius="30dp" />
         </shape>
     </item>
@@ -11,7 +11,7 @@
     <!-- Stanje kada je gumb onemogućen -->
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="#D1C4E9" /> <!-- Siva ljubičasta za onemogućeno -->
+            <solid android:color="@color/button_disabled" /> <!-- Siva ljubičasta za onemogućeno -->
             <corners android:radius="30dp" />
         </shape>
     </item>
@@ -19,7 +19,7 @@
     <!-- Zadano stanje -->
     <item>
         <shape>
-            <solid android:color="#6A1B9A" /> <!-- Ljubičasta boja za normalno stanje -->
+            <solid android:color="@color/button_normal" /> <!-- Ljubičasta boja za normalno stanje -->
             <corners android:radius="30dp" />
         </shape>
     </item>
