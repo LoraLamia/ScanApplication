@@ -1,10 +1,13 @@
 package com.lmx.autoscaningapp
 
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,6 +19,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import java.io.File
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -113,25 +121,63 @@ class MainActivity : AppCompatActivity() {
         val kod1 = editTextKod1.text.toString()
         val kod2 = editTextKod2.text.toString()
         val kod3 = editTextKod3.text.toString()
-        val fileName = "autoscan_data.txt"
         val data = "Šifra: $sifra\nKod 1: $kod1\nKod 2: $kod2\nKod 3: $kod3\n\n"
 
-        try {
-            // Otvori datoteku u APPEND modu - kreira ako ne postoji, dodaje ako postoji
-            openFileOutput(fileName, Context.MODE_APPEND).use {
-                it.write(data.toByteArray())
-            }
-            Toast.makeText(this, "Podaci spremljeni u $fileName", Toast.LENGTH_SHORT).show()
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val fileName = "Baza_${timestamp}.txt"
 
-            textViewSifra.text = ""
-            textViewSifra.hint = "Skeniraj kod"
-            hideKeyboard()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()
-        }
+        // Spremi original u Documents/ScanResults
+        saveFileToPublicDirectory(fileName, data, isArchive = false)
+
+        // Spremi arhivu u Downloads/ScanArchive
+        saveFileToPublicDirectory(fileName, data, isArchive = true)
+
+        textViewSifra.text = ""
+        textViewSifra.hint = "Skeniraj kod"
+        hideKeyboard()
 
         if(textViewSifra.text.toString().isEmpty()) {
             updateFieldsState(false)
+        }
+    }
+
+    fun saveFileToPublicDirectory(fileName: String, data: String, isArchive: Boolean) {
+        // Odredi lokaciju: Documents/ScanResults ili Downloads/ScanArchive
+        val relativeLocation = if (isArchive) {
+            Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"
+        } else {
+            Environment.DIRECTORY_DOCUMENTS + "/ScanResults"
+        }
+        Log.d("SaveDebug", "RELATIVE_PATH: $relativeLocation")
+
+        // Konfiguracija za MediaStore
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Files.FileColumns.DISPLAY_NAME, fileName) // Ime datoteke
+            put(MediaStore.Files.FileColumns.MIME_TYPE, "text/plain") // Tip datoteke
+            put(MediaStore.Files.FileColumns.RELATIVE_PATH, relativeLocation) // Ciljani direktorij
+        }
+
+        val resolver = applicationContext.contentResolver
+        val uri = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
+
+        if (uri != null) {
+            try {
+                // Piši u datoteku putem MediaStore-a
+                val outputStream: OutputStream? = resolver.openOutputStream(uri)
+                outputStream?.use {
+                    it.write(data.toByteArray())
+                }
+                val message = if (isArchive) {
+                    "Arhiva spremljena u $relativeLocation"
+                } else {
+                    "Original spremljen u $relativeLocation"
+                }
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Greška pri spremanju: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(this, "Neuspješno kreiranje datoteke.", Toast.LENGTH_SHORT).show()
         }
     }
 
