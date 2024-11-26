@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#F0F0F0" /> <!-- Svijetlosiva pozadina -->
+    <solid android:color="#E6C3C1EC" /> <!-- Svijetlosiva pozadina -->
     <stroke android:width="2dp" android:color="#B0B0B0" /> <!-- Rub svijetlosive boje -->
-    <corners android:radius="8dp" /> <!-- Zaobljeni rubovi -->
+    <corners android:radius="16dp" /> <!-- Zaobljeni rubovi -->
 </shape>

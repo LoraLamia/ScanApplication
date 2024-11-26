@@ -42,7 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             saveDataToFile()
-            updateFieldsState(false)
+            if(textViewSifra.text.toString().isEmpty()) {
+                updateFieldsState(false)
+            }
         }
 
         textViewSifra.addTextChangedListener(object : TextWatcher {
@@ -106,8 +108,6 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-
-
         try {
             // Otvori datoteku u APPEND modu - kreira ako ne postoji, dodaje ako postoji
             openFileOutput(fileName, Context.MODE_APPEND).use {
@@ -139,7 +139,4 @@ class MainActivity : AppCompatActivity() {
             setTextColor(resources.getColor(textColor, null))
         }
     }
-
-
-
 }
