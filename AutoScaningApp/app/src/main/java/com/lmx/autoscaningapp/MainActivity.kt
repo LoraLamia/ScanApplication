@@ -43,9 +43,6 @@ class MainActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             saveDataToFile()
-            if(textViewSifra.text.toString().isEmpty()) {
-                updateFieldsState(false)
-            }
         }
 
         textViewSifra.addTextChangedListener(object : TextWatcher {
@@ -119,11 +116,6 @@ class MainActivity : AppCompatActivity() {
         val fileName = "autoscan_data.txt"
         val data = "Šifra: $sifra\nKod 1: $kod1\nKod 2: $kod2\nKod 3: $kod3\n\n"
 
-        if (sifra.isEmpty() || kod1.isEmpty() || kod2.isEmpty() || kod3.isEmpty()) {
-            Toast.makeText(this, "Sva polja moraju biti popunjena prije spremanja!", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         try {
             // Otvori datoteku u APPEND modu - kreira ako ne postoji, dodaje ako postoji
             openFileOutput(fileName, Context.MODE_APPEND).use {
@@ -136,6 +128,10 @@ class MainActivity : AppCompatActivity() {
             hideKeyboard()
         } catch (e: Exception) {
             Toast.makeText(this, "Greška pri spremanju podataka: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+
+        if(textViewSifra.text.toString().isEmpty()) {
+            updateFieldsState(false)
         }
     }
 
