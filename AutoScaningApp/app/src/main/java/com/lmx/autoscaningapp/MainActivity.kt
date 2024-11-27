@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editTextKod3: EditText
     private lateinit var saveButton: Button
     private val targetKeyCode = 103
-    private lateinit var dataWedgeReceiver: DataWedgeReciever
+    private lateinit var dataWedgeReceiver: DataWedgeReceiver
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,12 +70,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        dataWedgeReceiver = DataWedgeReciever(textViewSifra)
+        dataWedgeReceiver = DataWedgeReceiver(textViewSifra)
 
         // Registracija BroadcastReceiver-a za DataWedge
         val filter = IntentFilter()
         filter.addAction("com.lmx.autoscaningapp.SCAN")
-        registerReceiver(dataWedgeReceiver, filter, RECEIVER_EXPORTED)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(dataWedgeReceiver, filter, Context.RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(dataWedgeReceiver, filter)
+        }
+
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -120,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun saveDataToFile() {
+    private fun saveDataToFile() {
         val sifra = textViewSifra.text.toString()
         val kod1 = editTextKod1.text.toString()
         val kod2 = editTextKod2.text.toString()
@@ -145,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun saveFileToPublicDirectory(fileName: String, data: String, isArchive: Boolean) {
+    private fun saveFileToPublicDirectory(fileName: String, data: String, isArchive: Boolean) {
         // Odredi lokaciju: Documents/ScanResults ili Downloads/ScanArchive
         val relativeLocation = if (isArchive) {
             Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"

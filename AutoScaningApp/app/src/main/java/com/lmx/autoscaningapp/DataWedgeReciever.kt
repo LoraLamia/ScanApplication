@@ -6,7 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.TextView
 
-class DataWedgeReciever(private val textViewSifra: TextView) : BroadcastReceiver() {
+class DataWedgeReceiver(private val textViewSifra: TextView) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent != null && intent.action == "com.lmx.autoscaningapp.SCAN") {
             val barcodeData = intent.getStringExtra("com.symbol.datawedge.data_string")
