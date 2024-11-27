@@ -23,6 +23,8 @@ import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.content.Intent
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         editTextKod2 = findViewById(R.id.editTextKod2)
         editTextKod3 = findViewById(R.id.editTextKod3)
         saveButton = findViewById(R.id.buttonClearAndSave)
+
+        createDataWedgeProfile() // Kreiraj profil
+        configureDataWedgeProfile()
         checkFieldsAndUpdateButton()
 
         updateFieldsState(false)
@@ -204,6 +209,70 @@ class MainActivity : AppCompatActivity() {
         val isKod3NotEmpty = editTextKod3.text.toString().isNotEmpty()
 
         saveButton.isEnabled = isSifraNotEmpty && isKod1NotEmpty && isKod2NotEmpty && isKod3NotEmpty
+    }
+
+    private fun createDataWedgeProfile() {
+        val createProfileIntent = Intent()
+        createProfileIntent.action = "com.symbol.datawedge.api.ACTION"
+        createProfileIntent.putExtra("com.symbol.datawedge.api.CREATE_PROFILE", "AutoScanningAppProfile")
+        Log.d("DataWedgeConfig", "Creating profile: AutoScanningAppProfile")
+        sendBroadcast(createProfileIntent)
+    }
+
+    private fun configureDataWedgeProfile() {
+        val configureProfileIntent = Intent()
+        configureProfileIntent.action = "com.symbol.datawedge.api.ACTION"
+
+        // APP_LIST configuration
+        val appConfig = Bundle()
+        appConfig.putString("PACKAGE_NAME", packageName)
+        appConfig.putStringArray("ACTIVITY_LIST", arrayOf("*"))
+
+        // BARCODE plugin configuration
+        val barcodeConfig = Bundle()
+        barcodeConfig.putString("PLUGIN_NAME", "BARCODE")
+        barcodeConfig.putString("RESET_CONFIG", "true")
+        val barcodeParams = Bundle()
+        barcodeParams.putString("scanner_selection", "auto")
+        barcodeParams.putString("scanner_input_enabled", "true")
+        barcodeConfig.putBundle("PARAM_LIST", barcodeParams)
+
+        // INTENT plugin configuration
+        val intentConfig = Bundle()
+        intentConfig.putString("PLUGIN_NAME", "INTENT")
+        intentConfig.putString("RESET_CONFIG", "true")
+        val intentParams = Bundle()
+        intentParams.putString("intent_output_enabled", "true")
+        intentParams.putString("intent_action", "com.lmx.autoscaningapp.SCAN")
+        intentParams.putString("intent_delivery", "2") // Broadcast
+        intentConfig.putBundle("PARAM_LIST", intentParams)
+
+        // KEYSTROKE plugin configuration
+        val keystrokeConfig = Bundle()
+        keystrokeConfig.putString("PLUGIN_NAME", "KEYSTROKE")
+        keystrokeConfig.putString("RESET_CONFIG", "true")
+        val keystrokeParams = Bundle()
+        keystrokeParams.putString("keystroke_output_enabled", "false")
+        keystrokeConfig.putBundle("PARAM_LIST", keystrokeParams)
+
+        // Combine all plugin configurations
+        val pluginConfigList = ArrayList<Bundle>()
+        pluginConfigList.add(barcodeConfig)
+        pluginConfigList.add(intentConfig)
+        pluginConfigList.add(keystrokeConfig)
+
+        // Final configuration
+        val profileConfig = Bundle()
+        profileConfig.putString("PROFILE_NAME", "AutoScanningAppProfile")
+        profileConfig.putString("PROFILE_ENABLED", "true")
+        profileConfig.putString("CONFIG_MODE", "UPDATE")
+        profileConfig.putParcelableArrayList("PLUGIN_CONFIG", pluginConfigList)
+        profileConfig.putParcelableArray("APP_LIST", arrayOf(appConfig))
+
+        configureProfileIntent.putExtra("com.symbol.datawedge.api.SET_CONFIG", profileConfig)
+
+        Log.d("DataWedgeConfig", "Configuring profile: AutoScanningAppProfile")
+        sendBroadcast(configureProfileIntent)
     }
 
 }
