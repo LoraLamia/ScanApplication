@@ -146,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             // Ako postoji datoteka, dodaj podatke u nju
             val existingFile = existingFiles.first() // Uzimamo jedinu datoteku
             appendToFile(scanResultsDir, existingFile.name, data)
+            appendToFile(scanArchiveDir, existingFile.name, data)
         }
 
         textViewSifra.text = ""
