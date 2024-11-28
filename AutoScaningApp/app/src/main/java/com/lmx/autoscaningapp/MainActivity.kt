@@ -4,7 +4,6 @@ package com.lmx.autoscaningapp
 import android.content.ContentValues
 import android.content.Context
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,7 +16,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -36,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     private val targetKeyCode = 103
     private lateinit var dataWedgeReceiver: DataWedgeReceiver
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -75,11 +72,7 @@ class MainActivity : AppCompatActivity() {
         // Registracija BroadcastReceiver-a za DataWedge
         val filter = IntentFilter()
         filter.addAction("com.lmx.autoscaningapp.SCAN")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(dataWedgeReceiver, filter, Context.RECEIVER_EXPORTED)
-        } else {
-            registerReceiver(dataWedgeReceiver, filter)
-        }
+        registerReceiver(dataWedgeReceiver, filter, Context.RECEIVER_EXPORTED)
 
 
         val textWatcher = object : TextWatcher {

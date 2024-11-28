@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.lmx.autoscaningapp"
-    compileSdk = 35
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.lmx.autoscaningapp"
-        minSdk = 24
-        targetSdk = 35
+        minSdk = 33
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
