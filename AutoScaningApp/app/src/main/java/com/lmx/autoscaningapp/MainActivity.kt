@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         val kod1 = editTextKod1.text.toString()
         val kod2 = editTextKod2.text.toString()
         val kod3 = editTextKod3.text.toString()
-        val data = "Šifra: $sifra\nKod 1: $kod1\nKod 2: $kod2\nKod 3: $kod3\n\n"
+        val data = "$sifra     $kod1 $kod2 $kod3\n" //5 razmaka izmedu sifre i koda 1, izmedu kodova po 1 razmak
 
         val scanResultsDir = Environment.DIRECTORY_DOCUMENTS + "/ScanResults"
         val scanArchiveDir = Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"
@@ -196,12 +196,10 @@ class MainActivity : AppCompatActivity() {
         val configureProfileIntent = Intent()
         configureProfileIntent.action = "com.symbol.datawedge.api.ACTION"
 
-        // APP_LIST configuration
         val appConfig = Bundle()
         appConfig.putString("PACKAGE_NAME", packageName)
         appConfig.putStringArray("ACTIVITY_LIST", arrayOf("*"))
 
-        // BARCODE plugin configuration
         val barcodeConfig = Bundle()
         barcodeConfig.putString("PLUGIN_NAME", "BARCODE")
         barcodeConfig.putString("RESET_CONFIG", "true")
@@ -210,7 +208,6 @@ class MainActivity : AppCompatActivity() {
         barcodeParams.putString("scanner_input_enabled", "true")
         barcodeConfig.putBundle("PARAM_LIST", barcodeParams)
 
-        // INTENT plugin configuration
         val intentConfig = Bundle()
         intentConfig.putString("PLUGIN_NAME", "INTENT")
         intentConfig.putString("RESET_CONFIG", "true")
@@ -220,7 +217,6 @@ class MainActivity : AppCompatActivity() {
         intentParams.putString("intent_delivery", "2") // Broadcast
         intentConfig.putBundle("PARAM_LIST", intentParams)
 
-        // KEYSTROKE plugin configuration
         val keystrokeConfig = Bundle()
         keystrokeConfig.putString("PLUGIN_NAME", "KEYSTROKE")
         keystrokeConfig.putString("RESET_CONFIG", "true")
@@ -228,13 +224,11 @@ class MainActivity : AppCompatActivity() {
         keystrokeParams.putString("keystroke_output_enabled", "false")
         keystrokeConfig.putBundle("PARAM_LIST", keystrokeParams)
 
-        // Combine all plugin configurations
         val pluginConfigList = ArrayList<Bundle>()
         pluginConfigList.add(barcodeConfig)
         pluginConfigList.add(intentConfig)
         pluginConfigList.add(keystrokeConfig)
 
-        // Final configuration
         val profileConfig = Bundle()
         profileConfig.putString("PROFILE_NAME", "AutoScanningAppProfile")
         profileConfig.putString("PROFILE_ENABLED", "true")
