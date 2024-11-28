@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.content.Intent
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -125,14 +126,27 @@ class MainActivity : AppCompatActivity() {
         val kod3 = editTextKod3.text.toString()
         val data = "Šifra: $sifra\nKod 1: $kod1\nKod 2: $kod2\nKod 3: $kod3\n\n"
 
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val fileName = "Baza_${timestamp}.txt"
+        val scanResultsDir = Environment.DIRECTORY_DOCUMENTS + "/ScanResults"
+        val scanArchiveDir = Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"
 
-        // Spremi original u Documents/ScanResults
-        saveFileToPublicDirectory(fileName, data, isArchive = false)
+        ensureDirectoryExists(scanResultsDir)
+        ensureDirectoryExists(scanArchiveDir)
 
-        // Spremi arhivu u Downloads/ScanArchive
-        saveFileToPublicDirectory(fileName, data, isArchive = true)
+        val scanResultsDirectory = File(Environment.getExternalStoragePublicDirectory(scanResultsDir).absolutePath)
+        val existingFiles = scanResultsDirectory.listFiles { _, name -> name.endsWith(".txt") }
+
+        if (existingFiles.isNullOrEmpty()) {
+            // Ako nema postojeće datoteke, kreiraj novu
+            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val newFileName = "Baza_${timestamp}.txt"
+
+            writeFile(scanResultsDir, newFileName, data)
+            writeFile(scanArchiveDir, newFileName, data)
+        } else {
+            // Ako postoji datoteka, dodaj podatke u nju
+            val existingFile = existingFiles.first() // Uzimamo jedinu datoteku
+            appendToFile(scanResultsDir, existingFile.name, data)
+        }
 
         textViewSifra.text = ""
         textViewSifra.hint = "Skeniraj kod"
@@ -140,46 +154,6 @@ class MainActivity : AppCompatActivity() {
 
         if(textViewSifra.text.toString().isEmpty()) {
             updateFieldsState(false)
-        }
-    }
-
-    private fun saveFileToPublicDirectory(fileName: String, data: String, isArchive: Boolean) {
-        // Odredi lokaciju: Documents/ScanResults ili Downloads/ScanArchive
-        val relativeLocation = if (isArchive) {
-            Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"
-        } else {
-            Environment.DIRECTORY_DOCUMENTS + "/ScanResults"
-        }
-        Log.d("SaveDebug", "RELATIVE_PATH: $relativeLocation")
-
-        // Konfiguracija za MediaStore
-        val contentValues = ContentValues().apply {
-            put(MediaStore.Files.FileColumns.DISPLAY_NAME, fileName) // Ime datoteke
-            put(MediaStore.Files.FileColumns.MIME_TYPE, "text/plain") // Tip datoteke
-            put(MediaStore.Files.FileColumns.RELATIVE_PATH, relativeLocation) // Ciljani direktorij
-        }
-
-        val resolver = applicationContext.contentResolver
-        val uri = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
-
-        if (uri != null) {
-            try {
-                // Piši u datoteku putem MediaStore-a
-                val outputStream: OutputStream? = resolver.openOutputStream(uri)
-                outputStream?.use {
-                    it.write(data.toByteArray())
-                }
-                val message = if (isArchive) {
-                    "Arhiva spremljena u $relativeLocation"
-                } else {
-                    "Original spremljen u $relativeLocation"
-                }
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Toast.makeText(this, "Greška pri spremanju: ${e.message}", Toast.LENGTH_LONG).show()
-            }
-        } else {
-            Toast.makeText(this, "Neuspješno kreiranje datoteke.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -273,4 +247,22 @@ class MainActivity : AppCompatActivity() {
         sendBroadcast(configureProfileIntent)
     }
 
+    private fun ensureDirectoryExists(directoryPath: String) {
+        val directory = File(Environment.getExternalStoragePublicDirectory(directoryPath).absolutePath)
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+    }
+
+    private fun writeFile(directoryPath: String, fileName: String, data: String) {
+        val file = File(Environment.getExternalStoragePublicDirectory(directoryPath), fileName)
+        file.writeText(data)
+        Toast.makeText(this, "Datoteka $fileName spremljena u $directoryPath", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun appendToFile(directoryPath: String, fileName: String, data: String) {
+        val file = File(Environment.getExternalStoragePublicDirectory(directoryPath), fileName)
+        file.appendText(data)
+        Toast.makeText(this, "Dodani podaci u datoteku $fileName", Toast.LENGTH_SHORT).show()
+    }
 }
