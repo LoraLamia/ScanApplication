@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Stanje pritisnuto -->
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/button_pressed" /> <!-- Tamnija ljubičasta boja -->
+            <solid android:color="@color/button_pressed" />
             <corners android:radius="30dp" />
         </shape>
     </item>
 
-    <!-- Stanje kada je gumb onemogućen -->
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="@color/button_disabled" /> <!-- Siva ljubičasta za onemogućeno -->
+            <solid android:color="@color/button_disabled" />
             <corners android:radius="30dp" />
         </shape>
     </item>
 
-    <!-- Zadano stanje -->
     <item>
         <shape>
-            <solid android:color="@color/button_normal" /> <!-- Ljubičasta boja za normalno stanje -->
+            <solid android:color="@color/button_normal" />
             <corners android:radius="30dp" />
         </shape>
     </item>
