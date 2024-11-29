@@ -31,6 +31,7 @@ class MainFragment : Fragment() {
     private lateinit var saveButton: Button
     private lateinit var dataWedgeReceiver: DataWedgeReceiver
     private lateinit var scanResultsViewModel: ScanResultsViewModel
+    private lateinit var recordCountTextView: TextView
 
 
     override fun onCreateView(
@@ -45,6 +46,9 @@ class MainFragment : Fragment() {
         editTextKod2 = view.findViewById(R.id.editTextKod2)
         editTextKod3 = view.findViewById(R.id.editTextKod3)
         saveButton = view.findViewById(R.id.buttonClearAndSave)
+        recordCountTextView = view.findViewById(R.id.recordCountTextView)
+        updateRecordCount()
+
 
         textViewSifra.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -130,15 +134,13 @@ class MainFragment : Fragment() {
         val existingFiles = scanResultsDirectory.listFiles { _, name -> name.endsWith(".txt") }
 
         if (existingFiles.isNullOrEmpty()) {
-            // Ako nema postojeće datoteke, kreiraj novu
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val newFileName = "Baza_${timestamp}.txt"
 
             writeFile(scanResultsDir, newFileName, data)
             writeFile(scanArchiveDir, newFileName, data)
         } else {
-            // Ako postoji datoteka, dodaj podatke u nju
-            val existingFile = existingFiles.first() // Uzimamo jedinu datoteku
+            val existingFile = existingFiles.first()
             appendToFile(scanResultsDir, existingFile.name, data)
             appendToFile(scanArchiveDir, existingFile.name, data)
         }
@@ -152,6 +154,7 @@ class MainFragment : Fragment() {
         }
 
         scanResultsViewModel.notifyRefresh()
+        updateRecordCount()
     }
 
     private fun updateFieldsState(enabled: Boolean) {
@@ -256,4 +259,27 @@ class MainFragment : Fragment() {
         file.appendText(data)
         Toast.makeText(requireContext(), "Dodani podaci u datoteku $fileName", Toast.LENGTH_SHORT).show()
     }
+
+    private fun updateRecordCount() {
+        val scanResultsDir = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+            "ScanResults"
+        )
+
+        if (scanResultsDir.exists() && scanResultsDir.isDirectory) {
+            val txtFiles = scanResultsDir.listFiles { _, name -> name.endsWith(".txt") }
+
+            if (!txtFiles.isNullOrEmpty()) {
+                val latestFile = txtFiles.maxByOrNull { it.lastModified() }
+                if (latestFile != null) {
+                    val lineCount = latestFile.readLines().size
+                    recordCountTextView.text = "Broj zapisa: $lineCount"
+                    return
+                }
+            }
+        } else {
+            recordCountTextView.text = "Broj zapisa: 0"
+        }
+    }
+
 }

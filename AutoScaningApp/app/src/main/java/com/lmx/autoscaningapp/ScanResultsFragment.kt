@@ -42,12 +42,12 @@ class ScanResultsFragment : Fragment() {
 
             if (!txtFiles.isNullOrEmpty()) {
                 val latestFile = txtFiles.maxByOrNull { it.lastModified() }
-                textView.text = latestFile?.readText() ?: "No scan results available."
+                textView.text = latestFile?.readText() ?: "Nema dostupnih zapisa."
             } else {
-                textView.text = "No scan results available."
+                textView.text = "Nema dostupnih zapisa."
             }
         } else {
-            textView.text = "Scan results directory does not exist."
+            textView.text = "Nema dostupnih zapisa."
         }
     }
 }

@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Main Screen"
+                    tab.text = "Unos zapisa"
                     tab.contentDescription = "Main Screen Tab"
                 }
                 1 -> {
-                    tab.text = "Scan Results"
+                    tab.text = "Pregled zapisa"
                     tab.contentDescription = "Scan Results Tab"
                 }
             }
