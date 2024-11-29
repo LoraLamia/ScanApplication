@@ -28,7 +28,7 @@ class ScanResultsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadScanResults() // Reload the scan results when the tab is resumed
+        loadScanResults()
     }
 
     private fun loadScanResults() {
@@ -37,7 +37,6 @@ class ScanResultsFragment : Fragment() {
             "ScanResults"
         )
 
-        // Ensure the directory exists
         if (scanResultsDir.exists() && scanResultsDir.isDirectory) {
             val txtFiles = scanResultsDir.listFiles { _, name -> name.endsWith(".txt") }
 

@@ -9,8 +9,8 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapte
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> MainFragment() // Main screen fragment
-            1 -> ScanResultsFragment() // Fragment to display the .txt file content
+            0 -> MainFragment()
+            1 -> ScanResultsFragment()
             else -> MainFragment()
         }
     }

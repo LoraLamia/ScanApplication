@@ -63,13 +63,11 @@ class MainFragment : Fragment() {
             androidx.lifecycle.ViewModelProvider(this)[ScanResultsViewModel::class.java]
         }
 
-
-
         saveButton.setOnClickListener {
             saveDataToFile()
         }
 
-        createDataWedgeProfile() // Kreiraj profil
+        createDataWedgeProfile()
         configureDataWedgeProfile()
         checkFieldsAndUpdateButton()
 
@@ -77,19 +75,15 @@ class MainFragment : Fragment() {
 
         dataWedgeReceiver = DataWedgeReceiver(textViewSifra)
 
-        // Registracija BroadcastReceiver-a za DataWedge
         val filter = IntentFilter()
         filter.addAction("com.lmx.autoscaningapp.SCAN")
         requireContext().registerReceiver(dataWedgeReceiver, filter, Context.RECEIVER_EXPORTED)
 
-
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 checkFieldsAndUpdateButton()
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
 
@@ -262,5 +256,4 @@ class MainFragment : Fragment() {
         file.appendText(data)
         Toast.makeText(requireContext(), "Dodani podaci u datoteku $fileName", Toast.LENGTH_SHORT).show()
     }
-
 }
