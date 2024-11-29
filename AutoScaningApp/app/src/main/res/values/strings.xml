@@ -18,4 +18,5 @@
     <string name="scan_results">Scan Results</string>
     <string name="no_results">No scan results available.</string>
     <string name="nav_tabs">Navigation Tabs</string>
+    <string name="loading">Loading scan results...</string>
 </resources>

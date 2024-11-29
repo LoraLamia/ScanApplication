@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 
 class ScanResultsViewModel : ViewModel() {
     private val _refreshTrigger = MutableLiveData<Unit>()
-    val refreshTrigger: LiveData<Unit> get() = _refreshTrigger
 
     fun notifyRefresh() {
         _refreshTrigger.value = Unit
