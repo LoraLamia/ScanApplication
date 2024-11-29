@@ -13,4 +13,9 @@
     <string name="kod1_hint">Unesi Kod 1</string>
     <string name="kod2_hint">Unesi Kod 2</string>
     <string name="kod3_hint">Unesi Kod 3</string>
+
+    <string name="main_screen">Main Screen</string>
+    <string name="scan_results">Scan Results</string>
+    <string name="no_results">No scan results available.</string>
+    <string name="nav_tabs">Navigation Tabs</string>
 </resources>
