@@ -140,15 +140,15 @@
         android:layout_marginTop="14dp" />
 
     <!-- Gumb za brisanje i spremanje -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonClearAndSave"
+        style="@style/CustomButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/button_clear_and_save"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:gravity="center"
-        android:background="@drawable/button_background"
         android:padding="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="44dp"
