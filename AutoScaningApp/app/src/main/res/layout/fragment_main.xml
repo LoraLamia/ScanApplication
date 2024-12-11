@@ -129,7 +129,7 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:inputType="textCapCharacters|text"
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        android:digits="0123456789"
         android:maxLength="2"
         android:imeOptions="actionDone"
         android:singleLine="true"
