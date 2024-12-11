@@ -147,6 +147,7 @@ class MainFragment : Fragment() {
 
         textViewSifra.text = ""
         textViewSifra.hint = "Skeniraj kod"
+        editTextKod3.setText("")
         hideKeyboard()
 
         if(textViewSifra.text.toString().isEmpty()) {
