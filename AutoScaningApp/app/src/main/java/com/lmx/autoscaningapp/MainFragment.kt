@@ -32,6 +32,7 @@ class MainFragment : Fragment() {
     private lateinit var dataWedgeReceiver: DataWedgeReceiver
     private lateinit var scanResultsViewModel: ScanResultsViewModel
     private lateinit var recordCountTextView: TextView
+    private lateinit var updateCountReceiver: UpdateCountReceiver
 
 
     override fun onCreateView(
@@ -83,6 +84,11 @@ class MainFragment : Fragment() {
         filter.addAction("com.lmx.autoscaningapp.SCAN")
         requireContext().registerReceiver(dataWedgeReceiver, filter, Context.RECEIVER_EXPORTED)
 
+        val filter2 = IntentFilter("com.lmx.autoscaningapp.UPDATE_RECORD_COUNT")
+        val updateCountReceiver = UpdateCountReceiver(this)
+        requireContext().registerReceiver(updateCountReceiver, filter2, Context.RECEIVER_EXPORTED)
+
+
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -102,6 +108,7 @@ class MainFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         requireContext().unregisterReceiver(dataWedgeReceiver)
+        requireContext().unregisterReceiver(updateCountReceiver)
     }
 
     private fun showKeyboard(editText: EditText) {
@@ -261,26 +268,31 @@ class MainFragment : Fragment() {
         Toast.makeText(requireContext(), "Dodani podaci u datoteku $fileName", Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateRecordCount() {
+    fun updateRecordCount() {
         val scanResultsDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
             "ScanResults"
         )
 
-        if (scanResultsDir.exists() && scanResultsDir.isDirectory) {
-            val txtFiles = scanResultsDir.listFiles { _, name -> name.endsWith(".txt") }
+        // Provjera postoji li direktorij i ima li barem jedna .txt datoteka
+        val txtFile = scanResultsDir.listFiles { _, name -> name.endsWith(".txt") }?.firstOrNull()
 
-            if (!txtFiles.isNullOrEmpty()) {
-                val latestFile = txtFiles.maxByOrNull { it.lastModified() }
-                if (latestFile != null) {
-                    val lineCount = latestFile.readLines().size
-                    recordCountTextView.text = "Broj zapisa: $lineCount"
-                    return
-                }
+        if (txtFile == null) {
+            // Ako nema datoteka, postavi broj zapisa na 0
+            requireActivity().runOnUiThread {
+                recordCountTextView.text = "Broj zapisa: 0"
             }
-        } else {
-            recordCountTextView.text = "Broj zapisa: 0"
+            return
+        }
+
+        // Ako postoji datoteka, prebroji linije u toj datoteci
+        val lineCount = txtFile.readLines().size
+        requireActivity().runOnUiThread {
+            recordCountTextView.text = "Broj zapisa: $lineCount"
         }
     }
+
+
+
 
 }
