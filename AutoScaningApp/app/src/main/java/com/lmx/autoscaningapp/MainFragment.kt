@@ -85,7 +85,7 @@ class MainFragment : Fragment() {
         requireContext().registerReceiver(dataWedgeReceiver, filter, Context.RECEIVER_EXPORTED)
 
         val filter2 = IntentFilter("com.lmx.autoscaningapp.UPDATE_RECORD_COUNT")
-        val updateCountReceiver = UpdateCountReceiver(this)
+        updateCountReceiver = UpdateCountReceiver(this)
         requireContext().registerReceiver(updateCountReceiver, filter2, Context.RECEIVER_EXPORTED)
 
 
@@ -274,18 +274,15 @@ class MainFragment : Fragment() {
             "ScanResults"
         )
 
-        // Provjera postoji li direktorij i ima li barem jedna .txt datoteka
         val txtFile = scanResultsDir.listFiles { _, name -> name.endsWith(".txt") }?.firstOrNull()
 
         if (txtFile == null) {
-            // Ako nema datoteka, postavi broj zapisa na 0
             requireActivity().runOnUiThread {
                 recordCountTextView.text = "Broj zapisa: 0"
             }
             return
         }
 
-        // Ako postoji datoteka, prebroji linije u toj datoteci
         val lineCount = txtFile.readLines().size
         requireActivity().runOnUiThread {
             recordCountTextView.text = "Broj zapisa: $lineCount"

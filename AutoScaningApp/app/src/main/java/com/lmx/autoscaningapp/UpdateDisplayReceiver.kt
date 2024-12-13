@@ -4,16 +4,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 
-class UpdateCountReceiver() : BroadcastReceiver() {
+class UpdateDisplayReceiver() : BroadcastReceiver() {
 
-    constructor(fragment: MainFragment) : this() {
+    constructor(fragment: ScanResultsFragment) : this() {
         this.fragment = fragment
     }
 
-    private var fragment: MainFragment? = null
+    private var fragment: ScanResultsFragment? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        fragment?.updateRecordCount()
+        fragment?.loadScanResults()
             ?: run {
                 println("Fragment is not attached, nothing to update.")
             }

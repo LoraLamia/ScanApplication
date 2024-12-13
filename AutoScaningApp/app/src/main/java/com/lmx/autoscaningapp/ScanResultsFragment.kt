@@ -1,5 +1,7 @@
 package com.lmx.autoscaningapp
 
+import android.content.Context
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import java.io.File
 class ScanResultsFragment : Fragment() {
 
     private lateinit var textView: TextView
+    private lateinit var updateDisplayReceiver: UpdateDisplayReceiver
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,6 +23,10 @@ class ScanResultsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_scan_results, container, false)
         textView = view.findViewById(R.id.textFileContent)
+
+        val filter = IntentFilter("com.lmx.autoscaningapp.UPDATE_DISPLAY")
+        updateDisplayReceiver = UpdateDisplayReceiver(this)
+        requireContext().registerReceiver(updateDisplayReceiver, filter, Context.RECEIVER_EXPORTED)
 
         loadScanResults()
 
@@ -31,7 +38,12 @@ class ScanResultsFragment : Fragment() {
         loadScanResults()
     }
 
-    private fun loadScanResults() {
+    override fun onDestroy() {
+        super.onDestroy()
+        requireContext().unregisterReceiver(updateDisplayReceiver)
+    }
+
+    fun loadScanResults() {
         val scanResultsDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
             "ScanResults"

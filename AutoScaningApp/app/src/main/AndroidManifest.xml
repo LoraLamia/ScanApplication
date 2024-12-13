@@ -29,5 +29,19 @@
                 <action android:name="com.lmx.autoscaningapp.SCAN" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".UpdateDisplayReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.lmx.autoscaningapp.UPDATE_DISPLAY" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".UpdateCountReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.lmx.autoscaningapp.UPDATE_RECORD_COUNT" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

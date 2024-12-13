@@ -6,7 +6,14 @@ import android.content.Intent
 import android.util.Log
 import android.widget.TextView
 
-class DataWedgeReceiver(private val textViewSifra: TextView) : BroadcastReceiver() {
+class DataWedgeReceiver() : BroadcastReceiver() {
+
+    constructor(textViewSifra: TextView) : this() {
+        this.textViewSifra = textViewSifra
+    }
+
+    private var textViewSifra: TextView? = null
+
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent != null && intent.action == "com.lmx.autoscaningapp.SCAN") {
             val barcodeData = intent.getStringExtra("com.symbol.datawedge.data_string")
@@ -15,12 +22,12 @@ class DataWedgeReceiver(private val textViewSifra: TextView) : BroadcastReceiver
             if (barcodeData != null) {
                 val validatedData = validateBarcodeData(barcodeData)
 
-                textViewSifra.post {
+                textViewSifra?.post {
                     if (validatedData != barcodeData) {
-                        textViewSifra.text = ""
-                        textViewSifra.hint = "Nedozvoljeni unos!"
+                        textViewSifra?.text = ""
+                        textViewSifra?.hint = "Nedozvoljeni unos!"
                     } else {
-                        textViewSifra.text = barcodeData
+                        textViewSifra?.text = barcodeData
                     }
                 }
             }
