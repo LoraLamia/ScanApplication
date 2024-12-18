@@ -129,7 +129,7 @@ class MainFragment : Fragment() {
         val kod1 = editTextKod1.text.toString()
         val kod2 = editTextKod2.text.toString()
         val kod3 = editTextKod3.text.toString()
-        val data = "$sifra     $kod1 $kod2 $kod3\n" //5 razmaka izmedu sifre i koda 1, izmedu kodova po 1 razmak
+        val data = "$sifra     $kod1$kod2$kod3\n" //5 razmaka izmedu sifre i koda 1, izmedu kodova nema razmaka
 
         val scanResultsDir = Environment.DIRECTORY_DOCUMENTS + "/ScanResults"
         val scanArchiveDir = Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"
