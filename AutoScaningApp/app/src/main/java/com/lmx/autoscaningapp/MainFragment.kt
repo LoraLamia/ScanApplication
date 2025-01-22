@@ -154,9 +154,6 @@ class MainFragment : Fragment() {
         textViewSifra.text = ""
         textViewSifra.hint = "Skeniraj kod"
         editTextKod1.setText("")
-//        Vjv ovdje treba maknuti doljnje dvije linije
-        editTextKod2.setText("")
-        editTextKod3.setText("")
         hideKeyboard()
 
         if(textViewSifra.text.toString().isEmpty()) {
