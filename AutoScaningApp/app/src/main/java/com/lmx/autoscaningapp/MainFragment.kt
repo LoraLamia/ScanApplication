@@ -125,12 +125,11 @@ class MainFragment : Fragment() {
     }
 
     private fun saveDataToFile() {
-        val sifra = textViewSifra.text.toString()
-        val kod1 = ensureTwoCharacters(editTextKod1.text.toString())
-        val kod2 = ensureTwoCharacters(editTextKod2.text.toString())
-        val kod3 = ensureTwoCharacters(editTextKod3.text.toString())
-        val data = "$sifra     $kod1$kod2$kod3\n" //5 razmaka izmedu sifre i koda 1, izmedu kodova nema razmaka
-
+        val sifra = textViewSifra.text.toString().padEnd(20)
+        val kod1 = editTextKod1.text.toString().padEnd(2)
+        val kod2 = editTextKod2.text.toString().padEnd(2)
+        val kod3 = editTextKod3.text.toString().padEnd(2)
+        val data = "$sifra  $kod1$kod2$kod3\n" //2 razmaka izmedu sifre i koda 1, izmedu kodova nema razmaka
         val scanResultsDir = Environment.DIRECTORY_DOCUMENTS + "/ScanResults"
         val scanArchiveDir = Environment.DIRECTORY_DOWNLOADS + "/ScanArchive"
 
@@ -155,6 +154,7 @@ class MainFragment : Fragment() {
         textViewSifra.text = ""
         textViewSifra.hint = "Skeniraj kod"
         editTextKod1.setText("")
+//        Vjv ovdje treba maknuti doljnje dvije linije
         editTextKod2.setText("")
         editTextKod3.setText("")
         hideKeyboard()
@@ -165,14 +165,6 @@ class MainFragment : Fragment() {
 
         scanResultsViewModel.notifyRefresh()
         updateRecordCount()
-    }
-
-    private fun ensureTwoCharacters(input: String): String {
-        return if (input.length == 1) {
-            " $input" 
-        } else {
-            input
-        }
     }
 
     private fun updateFieldsState(enabled: Boolean) {
